@@ -1,0 +1,9 @@
+.git
+.streamlit/
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+env/
+node_modules/

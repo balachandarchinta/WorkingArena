@@ -1,6 +1,12 @@
 import streamlit as st
 from google import genai
 import time
+from streamlit_option_menu import option_menu
+import plotly.graph_objects as go
+import pandas as pd
+from gtts import gTTS
+import base64
+import os
 
 # --- Config ---
 st.set_page_config(page_title="CricketArena", page_icon="🏏", layout="wide")
@@ -55,19 +61,32 @@ with st.sidebar:
     4. **Level Up:** Earn XP, climb the leaderboard, and unlock rare badges!
     """)
     st.markdown("---")
+    
+    selected_tab = option_menu(
+        menu_title=None,
+        options=["Dashboard", "What-If Simulator", "Predict", "Fantasy", "Leaderboard", "XP & Badges", "AI Coach", "Admin Hub"],
+        icons=["house", "controller", "bullseye", "lightning", "trophy", "star", "robot", "graph-up"],
+        menu_icon="cast",
+        default_index=0,
+        styles={
+            "container": {"padding": "0!important", "background-color": "transparent", "border": "none"},
+            "icon": {"color": "#DC2626", "font-size": "14px"},
+            "nav-link": {"font-size": "14px", "text-align": "left", "margin": "0px", "font-family": "Outfit", "color": "#1A1814"},
+            "nav-link-selected": {"background-color": "#FEF2F2", "color": "#7F1D1D", "font-weight": "bold"},
+        }
+    )
+    
+    st.markdown("---")
     st.metric("XP", f"{st.session_state.xp:,}")
     st.metric("Level", "12 — Elite Scout")
     st.metric("Streak", f"🔥 {st.session_state.streak} days")
     st.markdown("---")
     st.markdown("<p style='font-size:0.7rem;color:#888;font-family:DM Mono,monospace;text-transform:uppercase;'>Powered by Google Gemini</p>", unsafe_allow_html=True)
 
-# --- Tabs ---
-tabs = st.tabs(["🏠 Dashboard", "🎯 Predict", "⚡ Fantasy", "🏆 Leaderboard", "✨ XP & Badges", "🤖 AI Coach"])
-
 # ============================================================
 # TAB 1 — DASHBOARD
 # ============================================================
-with tabs[0]:
+if selected_tab == "Dashboard":
     st.markdown("""
     <div class="hero">
       <p class="tag">🔴 Live Match • T20 World Cup</p>
@@ -111,13 +130,46 @@ with tabs[0]:
     </div>
     """, unsafe_allow_html=True)
 
+    st.markdown("### 📊 Live Match Momentum")
+    df = pd.DataFrame({'Over': [15,16,17,18], 'IND Win %': [40, 45, 30, 64], 'Pressure Index': [80, 70, 90, 50]})
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=df['Over'], y=df['IND Win %'], fill='tozeroy', mode='lines', line=dict(color='#DC2626', width=3), name='IND Win %', fillcolor='rgba(220, 38, 38, 0.1)'))
+    fig.add_trace(go.Scatter(x=df['Over'], y=df['Pressure Index'], mode='lines', line=dict(color='#D97706', width=2, dash='dash'), name='Pressure Index'))
+    fig.update_layout(height=200, plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', margin=dict(l=0,r=0,t=30,b=0), xaxis=dict(showgrid=False), yaxis=dict(showgrid=False))
+    st.plotly_chart(fig, use_container_width=True)
+
     st.markdown("#### Earned Badges")
     st.markdown('<span class="badge">🏆 Rookie</span><span class="badge">🧠 Strategist</span><span class="badge">💎 Loyalist</span>', unsafe_allow_html=True)
 
 # ============================================================
-# TAB 2 — PREDICT
+# TAB 2 — WHAT-IF SIMULATOR
 # ============================================================
-with tabs[1]:
+elif selected_tab == "What-If Simulator":
+    st.markdown("# *What-If Simulator*")
+    st.caption("Powered by Gemini • Predict cascading match effects")
+    
+    scenario = st.text_input("Enter a scenario (e.g. 'What if Rohit hits 3 sixes in the next over?')")
+    if st.button("Simulate Scenario", use_container_width=True):
+        if scenario:
+            with st.spinner("Gemini is simulating the timeline..."):
+                try:
+                    sys_prompt = "You are a cricket simulation engine. Analyze this scenario for an IND vs AUS T20 match where IND is currently 184/4 (18.2 overs) chasing 201. Give a 3-sentence dramatic breakdown of how this changes Win Probability and impacts Fantasy Points for the player mentioned."
+                    res = client.models.generate_content(model='gemini-1.5-flash', contents=f"{sys_prompt}\nScenario: {scenario}")
+                    st.success(res.text)
+                    
+                    st.markdown("### 📈 Projected Momentum Shift")
+                    df = pd.DataFrame({'Over': [18.2, 18.5, 19.0, 19.5, 20.0], 'IND Win %': [64, 75, 82, 90, 99]})
+                    fig = go.Figure()
+                    fig.add_trace(go.Scatter(x=df['Over'], y=df['IND Win %'], mode='lines+markers', line=dict(color='#DC2626', width=4), name='IND Win Probability'))
+                    fig.update_layout(height=250, plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', margin=dict(l=0,r=0,t=30,b=0), xaxis=dict(title='Overs', showgrid=False), yaxis=dict(title='Probability %', showgrid=False))
+                    st.plotly_chart(fig, use_container_width=True)
+                except Exception as e:
+                    st.error(f"Simulation failed: {str(e)}")
+
+# ============================================================
+# TAB 3 — PREDICT
+# ============================================================
+elif selected_tab == "Predict":
     st.markdown("# *Lock In Your Predictions*")
     st.caption("Match: IND vs AUS • Pot: 1,500 XP Total")
 
@@ -148,9 +200,9 @@ with tabs[1]:
             st.rerun()
 
 # ============================================================
-# TAB 3 — FANTASY
+# TAB 4 — FANTASY
 # ============================================================
-with tabs[2]:
+elif selected_tab == "Fantasy":
     st.markdown("# *Build Your Fantasy XI*")
     st.caption("100 credit budget • Pick exactly 11 players")
 
@@ -195,6 +247,21 @@ with tabs[2]:
     col2.metric("Credits Used", f"{credits_used:.1f}/100")
     col3.metric("Credits Left", f"{remaining:.1f}")
 
+    st.markdown("### 🤖 AI Fantasy Optimizer")
+    risk_profile = st.selectbox("Select Risk Profile", ["Balanced (Safe)", "Aggressive (High Risk, High Reward)", "Contrarian (Differential Picks)"])
+    if st.button("✨ Auto-Generate Best XI", use_container_width=True):
+        with st.spinner("Gemini is analyzing player forms and pitch conditions..."):
+            try:
+                sys_prompt = "You are a Fantasy Cricket AI. Return a comma-separated list of EXACTLY 11 player names from this list that fit the risk profile, strictly staying under 100 total credits. Players: Virat Kohli, Rohit Sharma, Shubman Gill, Suryakumar Yadav, Shreyas Iyer, KL Rahul, Rishabh Pant, Hardik Pandya, Ravindra Jadeja, Axar Patel, Jasprit Bumrah, Mohammed Siraj, Kuldeep Yadav, Arshdeep Singh, Yuzvendra Chahal, Travis Head, David Warner, Steve Smith, Marnus Labuschagne, Matthew Wade, Josh Inglis, Glenn Maxwell, Cameron Green, Pat Cummins, Mitchell Starc, Josh Hazlewood, Adam Zampa, Nathan Lyon. ONLY RETURN COMMA SEPARATED NAMES."
+                res = client.models.generate_content(model='gemini-1.5-flash', contents=f"{sys_prompt}\nProfile: {risk_profile}")
+                names = [n.strip() for n in res.text.split(',')]
+                valid_names = [n for n in names if any(p['name'] == n for p in PLAYERS)][:11]
+                if valid_names:
+                    st.session_state.fantasy_team = valid_names
+                    st.rerun()
+            except Exception as e:
+                st.error(f"Optimization failed: {str(e)}")
+
     st.markdown("---")
     for p in PLAYERS:
         col_a, col_b, col_c, col_d = st.columns([3,1,1,1])
@@ -211,9 +278,9 @@ with tabs[2]:
                     st.rerun()
 
 # ============================================================
-# TAB 4 — LEADERBOARD
+# TAB 5 — LEADERBOARD
 # ============================================================
-with tabs[3]:
+elif selected_tab == "Leaderboard":
     st.markdown("""
     <div class="hero" style="text-align:center">
       <h1>THE ARENA <span style="color:#D97706">ELITE</span></h1>
@@ -255,9 +322,9 @@ with tabs[3]:
     </div>""", unsafe_allow_html=True)
 
 # ============================================================
-# TAB 5 — XP & BADGES
+# TAB 6 — XP & BADGES
 # ============================================================
-with tabs[4]:
+elif selected_tab == "XP & Badges":
     st.markdown("# *XP & Progression*")
 
     col1, col2, col3 = st.columns(3)
@@ -302,9 +369,9 @@ with tabs[4]:
         c3.markdown(f'<span style="font-size:0.75rem;color:#888">{date}</span>', unsafe_allow_html=True)
 
 # ============================================================
-# TAB 6 — AI COACH
+# TAB 7 — AI COACH
 # ============================================================
-with tabs[5]:
+elif selected_tab == "AI Coach":
     st.markdown("# *AI Cricket Coach*")
     st.caption("Powered by Google Gemini 1.5 Flash")
 
@@ -326,7 +393,40 @@ with tabs[5]:
                         contents=f"{system}\n\nUser: {prompt}"
                     )
                     reply = response.text
+                    
+                    st.write(reply)
+                    st.session_state.chat_history.append({"role":"assistant","content":reply})
+                    
+                    # Generate Voice Commentary
+                    tts = gTTS(text=reply, lang='en', tld='co.in')
+                    tts.save("response.mp3")
+                    with open("response.mp3", "rb") as f:
+                        data = f.read()
+                        b64 = base64.b64encode(data).decode()
+                        md = f"""
+                            <audio controls autoplay="true" style="height:30px;">
+                            <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
+                            </audio>
+                            """
+                        st.markdown(md, unsafe_allow_html=True)
                 except Exception as e:
-                    reply = f"⚠️ AI Coach temporarily unavailable. Error: {str(e)}"
-                st.write(reply)
-                st.session_state.chat_history.append({"role":"assistant","content":reply})
+                    st.error(f"⚠️ AI Coach temporarily unavailable. Error: {str(e)}")
+
+# ============================================================
+# TAB 8 — ADMIN HUB
+# ============================================================
+elif selected_tab == "Admin Hub":
+    st.markdown("# *Admin Analytics*")
+    st.caption("Global Platform Metrics")
+    
+    col1, col2, col3, col4 = st.columns(4)
+    col1.metric("Total Predictions", "142,504", "+12% today")
+    col2.metric("Active Users", "12,400", "Live")
+    col3.metric("Prediction Accuracy", "48.2%", "-2.1%")
+    col4.metric("Total XP Awarded", "4.2M")
+    
+    st.markdown("### 🏏 Global Fantasy Picks")
+    df = pd.DataFrame({'Player': ['Virat Kohli', 'Travis Head', 'Jasprit Bumrah', 'Mitchell Starc'], 'Selected %': [82, 76, 71, 64]})
+    fig = go.Figure(data=[go.Bar(x=df['Player'], y=df['Selected %'], marker_color='#DC2626')])
+    fig.update_layout(height=300, plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', margin=dict(l=0,r=0,t=0,b=0))
+    st.plotly_chart(fig, use_container_width=True)

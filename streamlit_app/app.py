@@ -102,26 +102,34 @@ if selected_tab == "Dashboard":
 
     col1, col2 = st.columns(2)
     with col1:
-        st.markdown('<div class="card">', unsafe_allow_html=True)
-        st.markdown("**Level 12 — Elite Scout**")
         pct = (st.session_state.xp / 3000) * 100
-        st.markdown(f"""
-        <div class="xp-bar-bg"><div class="xp-bar" style="width:{min(pct,100):.0f}%"></div></div>
-        <p style="font-size:0.75rem;color:#888;margin-top:6px;font-family:DM Mono,monospace">{st.session_state.xp:,} / 3,000 XP</p>
-        """, unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+        html_card1 = f"""
+        <div class="card">
+          <p style="margin:0 0 8px 0; font-weight:700;">Level 12 — Elite Scout</p>
+          <div class="xp-bar-bg"><div class="xp-bar" style="width:{min(pct,100):.0f}%"></div></div>
+          <p style="font-size:0.75rem;color:#888;margin-top:6px;margin-bottom:0;font-family:DM Mono,monospace">{st.session_state.xp:,} / 3,000 XP</p>
+        </div>
+        """
+        st.markdown(html_card1, unsafe_allow_html=True)
 
     with col2:
-        st.markdown('<div class="card">', unsafe_allow_html=True)
-        st.markdown("**Weekly Streak**")
         days = ["M","T","W","T","F","S","S"]
-        cols = st.columns(7)
-        for i, (c, d) in enumerate(zip(cols, days)):
+        circles = ""
+        for i, d in enumerate(days):
             bg = "#DC2626" if i < st.session_state.streak else "#EDE9E0"
             tc = "white" if i < st.session_state.streak else "#1A1814"
-            c.markdown(f'<div style="width:36px;height:36px;border-radius:50%;background:{bg};color:{tc};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.75rem">{d}</div>', unsafe_allow_html=True)
-        st.markdown(f'<p style="font-size:0.8rem;color:#888;margin-top:8px">{st.session_state.streak} day streak! Complete today\'s prediction.</p>', unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+            circles += f'<div style="width:36px;height:36px;border-radius:50%;background:{bg};color:{tc};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.75rem">{d}</div>'
+        
+        html_card2 = f"""
+        <div class="card">
+          <p style="margin:0 0 12px 0; font-weight:700;">Weekly Streak</p>
+          <div style="display:flex; justify-content:space-between;">
+            {circles}
+          </div>
+          <p style="font-size:0.8rem;color:#888;margin:0;margin-top:12px;">{st.session_state.streak} day streak! Complete today's prediction.</p>
+        </div>
+        """
+        st.markdown(html_card2, unsafe_allow_html=True)
 
     st.markdown("""
     <div class="gemini-alert">

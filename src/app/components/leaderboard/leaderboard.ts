@@ -6,4 +6,4 @@ import { Component } from '@angular/core';
   templateUrl: './leaderboard.html',
   styleUrl: './leaderboard.css',
 })
-export class Leaderboard {}
+export class LeaderboardComponent {}

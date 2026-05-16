@@ -6,4 +6,4 @@ import { Component } from '@angular/core';
   templateUrl: './predict.html',
   styleUrl: './predict.css',
 })
-export class Predict {}
+export class PredictComponent {}

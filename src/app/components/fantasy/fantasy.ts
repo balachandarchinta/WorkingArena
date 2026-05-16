@@ -6,4 +6,4 @@ import { Component } from '@angular/core';
   templateUrl: './fantasy.html',
   styleUrl: './fantasy.css',
 })
-export class Fantasy {}
+export class FantasyComponent {}

@@ -6,4 +6,4 @@ import { Component } from '@angular/core';
   templateUrl: './ai-coach.html',
   styleUrl: './ai-coach.css',
 })
-export class AiCoach {}
+export class AiCoachComponent {}

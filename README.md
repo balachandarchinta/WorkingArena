@@ -1,6 +1,6 @@
 # 🏏 CricketArena: AI-Powered Gamified Platform
 
-CricketArena is a next-generation, gamified cricket prediction and fantasy platform built for hackathons and modern fan engagement. It leverages **Google Gemini 2.5 Flash**, **Streamlit**, and **Google Cloud Run** to deliver an immersive, interactive experience.
+CricketArena is a next-generation, gamified cricket prediction and fantasy platform built for modern fan engagement. It leverages **Google Gemini 2.5 Flash**, **Streamlit**, and **Google Cloud Run** to deliver an immersive, interactive experience.
 
 ## ✨ High-Impact Features
 

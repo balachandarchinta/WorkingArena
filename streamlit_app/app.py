@@ -132,9 +132,31 @@ if selected_tab == "Dashboard":
         st.markdown(html_card2, unsafe_allow_html=True)
 
     st.markdown("""
+    <style>
+    .insight-wrapper { position: relative; height: 50px; width: 100%; margin-top: 4px; }
+    .insight-item { position: absolute; top: 0; left: 0; width: 100%; opacity: 0; animation: geminiFade 50s infinite; font-size: 0.85rem; color: #7F1D1D; font-family: 'Outfit', sans-serif;}
+    .insight-item:nth-child(1) { animation-delay: 0s; }
+    .insight-item:nth-child(2) { animation-delay: 10s; }
+    .insight-item:nth-child(3) { animation-delay: 20s; }
+    .insight-item:nth-child(4) { animation-delay: 30s; }
+    .insight-item:nth-child(5) { animation-delay: 40s; }
+    @keyframes geminiFade {
+      0% { opacity: 0; }
+      2% { opacity: 1; }
+      18% { opacity: 1; }
+      20% { opacity: 0; }
+      100% { opacity: 0; }
+    }
+    </style>
     <div class="gemini-alert">
       <b>✨ Gemini Strategist Insight</b><br>
-      <span style="font-size:0.85rem;color:#7F1D1D">Bumrah's economy in death overs is at an all-time low (5.2). Consider Australian batsmen for "Top Scorer" but avoid their middle order for "Top Bowler" predictions.</span>
+      <div class="insight-wrapper">
+        <div class="insight-item">Bumrah's economy in death overs is at an all-time low (5.2). Consider Australian batsmen for "Top Scorer" but avoid their middle order for "Top Bowler" predictions.</div>
+        <div class="insight-item">Travis Head has a strike rate of 185 against left-arm spin. If Axar Patel bowls in the powerplay, expect high run-scoring.</div>
+        <div class="insight-item">Virat Kohli's average at this venue is 78.4. He is a strong candidate for Captain in your Fantasy XI.</div>
+        <div class="insight-item">The pitch is drying up, meaning spinners will get more turn in the second innings. Prioritize taking Zampa or Kuldeep.</div>
+        <div class="insight-item">Australia's top order has collapsed 3 times in the last 5 matches chasing targets above 190. An early wicket could trigger a collapse.</div>
+      </div>
     </div>
     """, unsafe_allow_html=True)
 

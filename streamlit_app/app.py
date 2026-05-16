@@ -10,7 +10,13 @@ import os
 
 # --- Config ---
 st.set_page_config(page_title="CricketArena", page_icon="🏏", layout="wide")
-GEMINI_KEY = "AIzaSyASXQpZ8jQFBGp7ALNW5ARdh3WLggnICpA"
+
+try:
+    GEMINI_KEY = st.secrets["GEMINI_API_KEY"]
+except (KeyError, FileNotFoundError):
+    st.error("🚨 Gemini API Key is missing! Please set GEMINI_API_KEY in `.streamlit/secrets.toml` or Streamlit Cloud Secrets.")
+    st.stop()
+
 client = genai.Client(api_key=GEMINI_KEY)
 
 # --- CSS ---

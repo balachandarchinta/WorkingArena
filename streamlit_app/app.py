@@ -184,7 +184,7 @@ elif selected_tab == "What-If Simulator":
             with st.spinner("Gemini is simulating the timeline..."):
                 try:
                     sys_prompt = "You are a cricket simulation engine. Analyze this scenario for an IND vs AUS T20 match where IND is currently 184/4 (18.2 overs) chasing 201. Give a 3-sentence dramatic breakdown of how this changes Win Probability and impacts Fantasy Points for the player mentioned."
-                    res = client.models.generate_content(model='gemini-1.5-flash', contents=f"{sys_prompt}\nScenario: {scenario}")
+                    res = client.models.generate_content(model='gemini-2.5-flash', contents=f"{sys_prompt}\nScenario: {scenario}")
                     st.success(res.text)
                     
                     st.markdown("### 📈 Projected Momentum Shift")
@@ -283,7 +283,7 @@ elif selected_tab == "Fantasy":
         with st.spinner("Gemini is analyzing player forms and pitch conditions..."):
             try:
                 sys_prompt = "You are a Fantasy Cricket AI. Return a comma-separated list of EXACTLY 11 player names from this list that fit the risk profile, strictly staying under 100 total credits. Players: Virat Kohli, Rohit Sharma, Shubman Gill, Suryakumar Yadav, Shreyas Iyer, KL Rahul, Rishabh Pant, Hardik Pandya, Ravindra Jadeja, Axar Patel, Jasprit Bumrah, Mohammed Siraj, Kuldeep Yadav, Arshdeep Singh, Yuzvendra Chahal, Travis Head, David Warner, Steve Smith, Marnus Labuschagne, Matthew Wade, Josh Inglis, Glenn Maxwell, Cameron Green, Pat Cummins, Mitchell Starc, Josh Hazlewood, Adam Zampa, Nathan Lyon. ONLY RETURN COMMA SEPARATED NAMES."
-                res = client.models.generate_content(model='gemini-1.5-flash', contents=f"{sys_prompt}\nProfile: {risk_profile}")
+                res = client.models.generate_content(model='gemini-2.5-flash', contents=f"{sys_prompt}\nProfile: {risk_profile}")
                 names = [n.strip() for n in res.text.split(',')]
                 valid_names = [n for n in names if any(p['name'] == n for p in PLAYERS)][:11]
                 if valid_names:
@@ -419,7 +419,7 @@ elif selected_tab == "AI Coach":
                 try:
                     system = "You are an expert cricket analyst and coach for CricketArena. Give concise, data-driven advice about IPL, T20 matches, player form, fantasy team selection, and match predictions. Keep responses under 150 words."
                     response = client.models.generate_content(
-                        model='gemini-1.5-flash',
+                        model='gemini-2.5-flash',
                         contents=f"{system}\n\nUser: {prompt}"
                     )
                     reply = response.text

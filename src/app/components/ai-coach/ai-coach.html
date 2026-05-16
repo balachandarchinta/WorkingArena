@@ -1,0 +1,90 @@
+<div class="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 h-full flex flex-col">
+  <div class="flex flex-col gap-2">
+    <h1 class="text-3xl font-black italic tracking-tight flex items-center gap-3">
+      AI COACH
+      <span class="text-[0.6rem] bg-gold-pale text-gold-ink px-2 py-1 rounded-full font-mono border border-gold-border uppercase tracking-widest">Powered by Gemini</span>
+    </h1>
+    <p class="text-[0.85rem] text-night/50 font-ui">Your personalized cricket strategist and trivia master.</p>
+  </div>
+
+  <!-- AI Tools Grid -->
+  <div class="grid grid-cols-2 gap-4">
+    <button class="card-premium flex flex-col items-center text-center gap-3 hover:border-gold-base/30 transition-all group">
+      <div class="w-12 h-12 bg-gold-pale rounded-full flex items-center justify-center text-xl group-hover:scale-110 transition-transform">🎯</div>
+      <div class="space-y-1">
+        <h4 class="font-bold text-xs">New Challenge</h4>
+        <p class="text-[0.6rem] text-night/40 font-mono uppercase">Earn 50 XP</p>
+      </div>
+    </button>
+    <button class="card-premium flex flex-col items-center text-center gap-3 hover:border-gold-base/30 transition-all group">
+      <div class="w-12 h-12 bg-crimson-pale rounded-full flex items-center justify-center text-xl group-hover:scale-110 transition-transform">🧠</div>
+      <div class="space-y-1">
+        <h4 class="font-bold text-xs">Daily Trivia</h4>
+        <p class="text-[0.6rem] text-night/40 font-mono uppercase">Earn 20 XP</p>
+      </div>
+    </button>
+    <button class="card-premium flex flex-col items-center text-center gap-3 hover:border-gold-base/30 transition-all group">
+      <div class="w-12 h-12 bg-sage-pale rounded-full flex items-center justify-center text-xl group-hover:scale-110 transition-transform">📊</div>
+      <div class="space-y-1">
+        <h4 class="font-bold text-xs">Weekly Summary</h4>
+        <p class="text-[0.6rem] text-night/40 font-mono uppercase">Analyze Stats</p>
+      </div>
+    </button>
+    <button class="card-premium flex flex-col items-center text-center gap-3 hover:border-gold-base/30 transition-all group">
+      <div class="w-12 h-12 bg-paper rounded-full flex items-center justify-center text-xl group-hover:scale-110 transition-transform">🔮</div>
+      <div class="space-y-1">
+        <h4 class="font-bold text-xs">AI Suggestion</h4>
+        <p class="text-[0.6rem] text-night/40 font-mono uppercase">Match Insights</p>
+      </div>
+    </button>
+  </div>
+
+  <!-- Contextual Chat -->
+  <div class="flex-grow flex flex-col card-premium p-0 overflow-hidden min-h-[400px]">
+    <!-- Chat Header -->
+    <div class="p-4 border-b border-night/5 bg-paper/30 flex items-center gap-3">
+      <div class="w-8 h-8 bg-night rounded-full flex items-center justify-center text-xs">🤖</div>
+      <div>
+        <h4 class="font-bold text-sm italic">Coach Gemini</h4>
+        <p class="text-[0.65rem] text-sage-base font-mono uppercase font-bold">Online • analyzing bumrah stats</p>
+      </div>
+    </div>
+
+    <!-- Message Area -->
+    <div class="flex-grow p-4 space-y-4 overflow-y-auto">
+      <div class="flex gap-3 max-w-[85%]">
+        <div class="w-8 h-8 bg-night rounded-full flex items-center justify-center text-[0.6rem] shrink-0">🤖</div>
+        <div class="bg-paper p-3 rounded-2xl rounded-tl-none">
+          <p class="text-sm font-ui leading-relaxed">
+            Welcome to the Arena. I've been analyzing the recent IPL data. Did you know Virat Kohli's average against left-arm pace has dropped to 24.5 this season? This might impact your "Top Scorer" prediction for the IND vs AUS match.
+          </p>
+        </div>
+      </div>
+
+      <div class="flex gap-3 max-w-[85%] ml-auto flex-row-reverse">
+        <div class="w-8 h-8 bg-gold-mid rounded-full flex items-center justify-center text-[0.6rem] shrink-0 font-bold">YOU</div>
+        <div class="bg-crimson-base text-white p-3 rounded-2xl rounded-tr-none">
+          <p class="text-sm font-ui leading-relaxed">
+            Tell me about Jasprit Bumrah's performance in Perth.
+          </p>
+        </div>
+      </div>
+
+      <div class="flex gap-3 max-w-[85%]">
+        <div class="w-8 h-8 bg-night rounded-full flex items-center justify-center text-[0.6rem] shrink-0">🤖</div>
+        <div class="bg-paper p-3 rounded-2xl rounded-tl-none">
+          <p class="text-sm font-ui leading-relaxed italic">Analyzing historical data...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input Area -->
+    <div class="p-4 border-t border-night/5 bg-ivory flex gap-2">
+      <input type="text" placeholder="Ask about Kohli, Bumrah, or strategy..." 
+             class="flex-grow bg-paper/50 rounded-full px-4 py-2 text-sm font-ui outline-none border border-night/5 focus:border-crimson-base/30 transition-all">
+      <button class="w-10 h-10 bg-crimson-base text-white rounded-full flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-lg shadow-crimson-base/20">
+        <span class="text-xl">→</span>
+      </button>
+    </div>
+  </div>
+</div>

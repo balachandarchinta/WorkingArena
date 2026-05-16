@@ -1,0 +1,72 @@
+<div class="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+  <!-- Atmospheric Header -->
+  <div class="hero-band min-h-[160px] flex flex-col justify-center items-center text-center">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--color-crimson-base)_0%,_transparent_70%)] opacity-10"></div>
+    <h1 class="text-4xl font-black italic mb-2 relative z-10">THE ARENA <span class="text-gold-base">ELITE</span></h1>
+    <p class="text-[0.7rem] font-mono uppercase tracking-[0.2em] text-white/40 relative z-10">Global Rankings • Updated 2m ago</p>
+  </div>
+
+  <!-- Tabs -->
+  <div class="flex gap-2 p-1 bg-paper rounded-full w-fit mx-auto">
+    <button class="px-6 py-2 rounded-full text-xs font-bold bg-night text-white shadow-sm">Global</button>
+    <button class="px-6 py-2 rounded-full text-xs font-bold text-night/50 hover:bg-ivory transition-colors">Friends</button>
+    <button class="px-6 py-2 rounded-full text-xs font-bold text-night/50 hover:bg-ivory transition-colors">Weekly</button>
+  </div>
+
+  <!-- Ranked List -->
+  <div class="space-y-3">
+    <!-- Rank Card -->
+    <div *ngFor="let user of [
+      {rank: 1, name: 'CricketGod99', xp: '45,200', level: 52, streak: 14, avatar: 'CG'},
+      {rank: 2, name: 'BumrahFanatic', xp: '42,150', level: 48, streak: 8, avatar: 'BF'},
+      {rank: 3, name: 'KohliKing', xp: '39,800', level: 45, streak: 21, avatar: 'KK'},
+      {rank: 4, name: 'SpinWizard', xp: '35,400', level: 41, streak: 5, avatar: 'SW'}
+    ]; let i = index" 
+    [class.bg-gold-pale/30]="i === 0"
+    [class.border-gold-border/30]="i === 0"
+    class="flex items-center justify-between p-4 bg-warm-white border border-night/5 rounded-2xl hover:border-crimson-light/20 transition-all cursor-pointer">
+      
+      <div class="flex items-center gap-4">
+        <div [class.text-gold-base]="i === 0" 
+             [class.text-night/20]="i > 0"
+             class="w-8 font-black italic text-xl italic italic">
+          #{{ user.rank }}
+        </div>
+        
+        <div class="w-10 h-10 rounded-full bg-paper flex items-center justify-center font-bold text-night/30 text-xs border border-night/5">
+          {{ user.avatar }}
+        </div>
+        
+        <div>
+          <h4 class="font-bold text-sm flex items-center gap-2">
+            {{ user.name }}
+            <span *ngIf="user.streak > 10" class="text-[0.6rem] bg-crimson-pale text-crimson-ink px-1.5 py-0.5 rounded-sm font-mono">🔥 {{ user.streak }}</span>
+          </h4>
+          <p class="text-[0.65rem] font-mono text-night/40 uppercase">Level {{ user.level }}</p>
+        </div>
+      </div>
+
+      <div class="text-right">
+        <p class="text-sm font-black text-night">{{ user.xp }} <span class="text-[0.6rem] text-night/40 font-mono">XP</span></p>
+        <p class="text-[0.6rem] font-mono text-sage-base font-bold uppercase">Active Now</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- User's Ranking (Sticky Bottom) -->
+  <div class="sticky bottom-8 left-0 right-0 z-20">
+    <div class="card-premium bg-night text-white border-none shadow-2xl flex items-center justify-between">
+       <div class="flex items-center gap-4">
+        <div class="text-white/40 font-black italic text-xl italic">#1,204</div>
+        <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center font-bold text-white text-xs">YOU</div>
+        <div>
+          <h4 class="font-bold text-sm">Your Ranking</h4>
+          <p class="text-[0.65rem] font-mono text-white/40 uppercase">Level 12</p>
+        </div>
+      </div>
+      <div class="text-right">
+        <p class="text-sm font-black">2,450 XP</p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+@theme {
+  /* Colors */
+  --color-ivory: #FAFAF8;
+  --color-warm-white: #F5F3EE;
+  --color-paper: #EDE9E0;
+  --color-paper-dark: #E0DAD0;
+  --color-night: #1A1814;
+
+  /* Crimson Accent Ramp */
+  --color-crimson-pale: #FEF2F2;
+  --color-crimson-mid: #FECACA;
+  --color-crimson-border: #FCA5A5;
+  --color-crimson-light: #EF4444;
+  --color-crimson-base: #DC2626;
+  --color-crimson-dark: #B91C1C;
+  --color-crimson-ink: #7F1D1D;
+
+  /* Gold Accent Ramp */
+  --color-gold-pale: #FFFBEB;
+  --color-gold-mid: #FDE68A;
+  --color-gold-border: #FCD34D;
+  --color-gold-light: #F59E0B;
+  --color-gold-base: #D97706;
+  --color-gold-dark: #92400E;
+  --color-gold-ink: #451A03;
+
+  /* Sage Success Ramp */
+  --color-sage-pale: #F0FDF4;
+  --color-sage-mid: #BBF7D0;
+  --color-sage-border: #4ADE80;
+  --color-sage-light: #22C55E;
+  --color-sage-base: #15803D;
+  --color-sage-dark: #14532D;
+  --color-sage-ink: #052E16;
+
+  /* Typography */
+  --font-display: "Playfair Display", serif;
+  --font-ui: "Outfit", sans-serif;
+  --font-mono: "DM Mono", monospace;
+
+  /* Spacing */
+  --spacing-8: 8px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+  --spacing-40: 40px;
+  --spacing-64: 64px;
+
+  /* Border Radius */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-full: 999px;
+}
+
+@layer base {
+  body {
+    @apply bg-ivory text-night font-ui antialiased;
+    margin: 0;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-crimson-base text-white rounded-full px-6 py-2 font-semibold transition-all hover:-translate-y-0.5 active:scale-95;
+    font-family: var(--font-ui);
+  }
+
+  .btn-secondary {
+    @apply border-1.5 border-night/10 rounded-full px-6 py-2 font-semibold transition-all hover:bg-paper active:scale-97;
+    font-family: var(--font-ui);
+  }
+
+  .card-premium {
+    @apply bg-warm-white rounded-lg border border-night/8 p-4 shadow-sm;
+  }
+
+  .hero-band {
+    @apply bg-night rounded-xl p-8 text-white relative overflow-hidden;
+  }
+}

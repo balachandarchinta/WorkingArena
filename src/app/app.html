@@ -1,0 +1,18 @@
+<!-- Mascot Intro (Overlay) -->
+<app-mascot-intro *ngIf="showIntro" (dismissed)="onIntroDismissed()"></app-mascot-intro>
+
+<!-- Main App Content -->
+<div *ngIf="!showIntro" class="min-h-screen flex flex-col bg-ivory">
+  <!-- Sticky Navbar -->
+  <app-navbar class="sticky top-0 z-50"></app-navbar>
+
+  <!-- Main View Area -->
+  <main class="flex-grow max-w-[720px] mx-auto w-full px-6 py-8">
+    <router-outlet></router-outlet>
+  </main>
+
+  <!-- Footer (Optional) -->
+  <footer class="py-8 text-center text-night/30 text-[0.75rem] font-mono uppercase tracking-widest">
+    CricketArena © 2026 • Powered by Google Gemini
+  </footer>
+</div>

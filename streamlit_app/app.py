@@ -1,11 +1,11 @@
 import streamlit as st
-import google.generativeai as genai
+from google import genai
 import time
 
 # --- Config ---
 st.set_page_config(page_title="CricketArena", page_icon="🏏", layout="wide")
 GEMINI_KEY = "AIzaSyASXQpZ8jQFBGp7ALNW5ARdh3WLggnICpA"
-genai.configure(api_key=GEMINI_KEY)
+client = genai.Client(api_key=GEMINI_KEY)
 
 # --- CSS ---
 st.markdown("""
@@ -47,6 +47,13 @@ if "credits_used" not in st.session_state:
 # --- Sidebar ---
 with st.sidebar:
     st.markdown("## 🏏 CricketArena")
+    st.markdown("""
+    **How to Play:**
+    1. **Predict:** Lock in your match predictions to earn XP.
+    2. **Fantasy:** Pick your 11-player dream team within a 100-credit budget.
+    3. **AI Coach:** Chat with Gemini for deep match insights.
+    4. **Level Up:** Earn XP, climb the leaderboard, and unlock rare badges!
+    """)
     st.markdown("---")
     st.metric("XP", f"{st.session_state.xp:,}")
     st.metric("Level", "12 — Elite Scout")
@@ -313,9 +320,11 @@ with tabs[5]:
         with st.chat_message("assistant"):
             with st.spinner("Analyzing..."):
                 try:
-                    model = genai.GenerativeModel("gemini-1.5-flash")
                     system = "You are an expert cricket analyst and coach for CricketArena. Give concise, data-driven advice about IPL, T20 matches, player form, fantasy team selection, and match predictions. Keep responses under 150 words."
-                    response = model.generate_content(f"{system}\n\nUser: {prompt}")
+                    response = client.models.generate_content(
+                        model='gemini-1.5-flash',
+                        contents=f"{system}\n\nUser: {prompt}"
+                    )
                     reply = response.text
                 except Exception as e:
                     reply = f"⚠️ AI Coach temporarily unavailable. Error: {str(e)}"
